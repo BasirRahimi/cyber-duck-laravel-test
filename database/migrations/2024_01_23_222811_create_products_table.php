@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
+            $table->decimal('profit_margin', 4, 2);
+            $table->decimal('shipping_cost', 10, 2);
             $table->timestamps();
         });
     }

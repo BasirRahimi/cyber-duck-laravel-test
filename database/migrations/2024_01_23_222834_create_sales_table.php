@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id');
+            $table->integer('quantity');
+            $table->decimal('unit_cost', 10, 2);
+            $table->decimal('selling_price', 10, 2);
             $table->timestamps();
         });
     }
