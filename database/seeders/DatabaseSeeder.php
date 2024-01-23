@@ -14,9 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
-            'name' => 'Sales Agent',
-            'email' => 'sales@coffee.shop',
-        ]);
+        if (User::where('email', 'sales@coffee.shop')->doesntExist()) {
+            User::factory()->create([
+                'name' => 'Sales Agent',
+                'email' => 'sales@coffee.shop',
+            ]);
+
+            $this->call([
+                ProductSeeder::class
+            ]);
+        }
     }
 }
