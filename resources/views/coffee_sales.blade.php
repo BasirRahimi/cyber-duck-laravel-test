@@ -11,7 +11,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <h3 class="text-gray-700 font-bold text-xl mb-3">Price calculator</h3>
-                        <form class="grid md:grid-cols-4 gap-8" x-data="{ quantity: null, unitCost: null, productId: 1, sellingPrice: null }" x-effect="quantity && unitCost ? sellingPrice = await getSellingPrice(quantity, unitCost, productId) : ''" @submit.prevent="sales = [await recordSale($data), ...sales]; quantity = unitCost = sellingPrice = null;">
+                        <form class="grid md:grid-cols-4 gap-8" x-data="{ quantity: null, unitCost: null, productId: 1, sellingPrice: null }" x-effect="quantity && unitCost ? sellingPrice = await getSellingPrice(quantity, unitCost, productId) : sellingPrice = null" @submit.prevent="sales = [await recordSale($data), ...sales]; quantity = unitCost = sellingPrice = null;">
                             <label class="block">
                                 <span class="text-gray-700">Quantity</span>
                                 <input type="number" min="1" x-model.debounce.500ms="quantity" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
