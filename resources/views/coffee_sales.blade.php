@@ -56,6 +56,9 @@
                                 <thead class="text-xs text-white uppercase bg-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
+                                            Product
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
                                             Quantity
                                         </th>
                                         <th scope="col" class="px-6 py-3">
@@ -64,16 +67,23 @@
                                         <th scope="col" class="px-6 py-3">
                                             Selling Price
                                         </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Sold at
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template x-for="sale in sales">
                                         <tr class="odd:bg-white even:bg-gray-50 border-b">
+                                            <td class="px-6 py-4" x-html="sale.product.name">
+                                            </td>
                                             <td class="px-6 py-4" x-html="sale.quantity">
                                             </td>
                                             <td class="px-6 py-4" x-html="sale.unit_cost">
                                             </td>
                                             <td class="px-6 py-4" x-html="sale.selling_price">
+                                            </td>
+                                            <td class="px-6 py-4" x-html="sale.created_at">
                                             </td>
                                         </tr>
                                     </template>

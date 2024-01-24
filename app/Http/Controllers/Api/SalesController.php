@@ -33,6 +33,9 @@ class SalesController extends Controller
             'selling_price' => $sellingPrice,
         ]);
 
+        // Load the product relationship
+        $sale->load('product');
+
         return response()->json(['sale' => $sale], 201);
     }
 
