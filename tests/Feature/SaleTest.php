@@ -33,7 +33,7 @@ class SaleTest extends TestCase
         // Round the selling price to 2 decimal places
         $sellingPrice = round($sellingPrice, 2);
 
-        $response = $this->actingAs($user)->get("/api/v1/selling-price?product-id=$product->id&quantity=$quantity&unit-cost=$unitCost");
+        $response = $this->actingAs($user)->getJson("/api/v1/selling-price?product-id=$product->id&quantity=$quantity&unit-cost=$unitCost");
 
         // Assert the selling price is correct
         $response->assertStatus(200)
@@ -48,7 +48,7 @@ class SaleTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
 
-        $response = $this->actingAs($user)->post('/api/v1/sales', [
+        $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id,
             'quantity' => 5,
             'unitCost' => 1,
@@ -66,15 +66,15 @@ class SaleTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
 
-        $response = $this->actingAs($user)->post('/api/v1/sales', [
+        $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id + 1,
             'quantity' => 1,
             'unitCost' => 1,
             'sellingPrice' => 1,
         ]);
-        $response->assertStatus(404);
+        $response->assertStatus(422);
 
-        $response = $this->actingAs($user)->post('/api/v1/sales', [
+        $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id,
             'quantity' => 0,
             'unitCost' => 1,
@@ -83,7 +83,7 @@ class SaleTest extends TestCase
         $response->assertStatus(422);
 
 
-        $response = $this->actingAs($user)->post('/api/v1/sales', [
+        $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id,
             'quantity' => 5,
             'unitCost' => '',
@@ -91,12 +91,58 @@ class SaleTest extends TestCase
         ]);
         $response->assertStatus(422);
 
-        $response = $this->actingAs($user)->post('/api/v1/sales', [
+        $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id,
             'quantity' => 5,
             'unitCost' => 1,
             'sellingPrice' => '',
         ]);
         $response->assertStatus(422);
+    }
+
+    /**
+     * Test the Api index method returns the correct data.
+     */
+    public function test_api_index_method_returns_correct_data(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($user)->getJson('/api/v1/sales');
+
+        $response->assertStatus(200)
+            ->assertExactJson(['sales' => []]);
+
+        $product->sales()->create([
+            'quantity' => 1,
+            'unit_cost' => 1,
+            'selling_price' => 1,
+        ]);
+
+        $response = $this->actingAs($user)->get('/api/v1/sales');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(1, 'sales')
+            ->assertJsonStructure([
+                'sales' => [
+                    '*' => [
+                        'id',
+                        'product_id',
+                        'quantity',
+                        'unit_cost',
+                        'selling_price',
+                        'created_at',
+                        'updated_at',
+                        'product' => [
+                            'id',
+                            'name',
+                            'profit_margin',
+                            'shipping_cost',
+                            'created_at',
+                            'updated_at',
+                        ],
+                    ],
+                ],
+            ]);
     }
 }
