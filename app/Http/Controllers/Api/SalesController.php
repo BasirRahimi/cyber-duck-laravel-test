@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use Akaunting\Money\Money;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CalculateSellingPriceRequest;
 use App\Http\Requests\StoreSaleRequest;
 use App\Models\Product;
 use App\Models\Sale;
-use Akaunting\Money\Money;
 
 class SalesController extends Controller
 {

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Akaunting\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Akaunting\Money\Money;
 
 class Sale extends Model
 {
     use HasFactory;
 
     protected $fillable = ['quantity', 'unit_cost', 'selling_price'];
+
     protected $appends = ['selling_price_formatted'];
 
     public function product()

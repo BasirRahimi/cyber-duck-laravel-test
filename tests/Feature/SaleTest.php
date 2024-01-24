@@ -3,11 +3,10 @@
 namespace Tests\Feature;
 
 use Akaunting\Money\Money;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SaleTest extends TestCase
 {
@@ -83,7 +82,6 @@ class SaleTest extends TestCase
             'sellingPrice' => 1,
         ]);
         $response->assertStatus(422);
-
 
         $response = $this->actingAs($user)->postJson('/api/v1/sales', [
             'productId' => $product->id,
