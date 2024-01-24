@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Sales Agent',
                 'email' => 'sales@coffee.shop',
             ]);
-
-            $this->call([
-                ProductSeeder::class
-            ]);
         }
+
+        $this->call([
+            ProductSeeder::class
+        ]);
     }
 }

@@ -1551,6 +1551,10 @@ select {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
   .md\:border-t-0 {
     border-top-width: 0px;
   }
@@ -1560,6 +1564,10 @@ select {
   }
 }
 @media (min-width: 1024px) {
+
+  .lg\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 
   .lg\:px-8 {
     padding-left: 2rem;

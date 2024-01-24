@@ -20,5 +20,12 @@ class ProductSeeder extends Seeder
                 'shipping_cost' => 10.00,
             ]);
         }
+        if (Product::where('name', 'Arabic Coffee')->doesntExist()) {
+            Product::factory()->create([
+                'name' => 'Arabic Coffee',
+                'profit_margin' => 0.15,
+                'shipping_cost' => 10.00,
+            ]);
+        }
     }
 }

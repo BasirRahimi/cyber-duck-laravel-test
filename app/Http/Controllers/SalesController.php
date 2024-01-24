@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sale;
+use App\Models\Product;
 
 class SalesController extends Controller
 {
@@ -13,6 +14,7 @@ class SalesController extends Controller
 
         return view('coffee_sales', [
             'sales' => $sales,
+            'products' => Product::all()
         ]);
     }
 }
