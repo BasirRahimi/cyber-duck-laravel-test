@@ -32,7 +32,7 @@ class SalesController extends Controller
         }
 
         // if unitCost is 0 it's okay
-        if (!$unitCost && $unitCost != 0) {
+        if (!$unitCost && $unitCost !== 0) {
             return response()->json(['error' => 'Unit cost is required'], 422);
         }
 

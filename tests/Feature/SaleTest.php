@@ -11,12 +11,13 @@ use App\Models\User;
 class SaleTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * Test the selling price calculation returns the correct value.
      */
-    public function test_selling_price_calculation(): void
+    public function test_selling_price_calculation_is_correct(): void
     {
-        // Set up the product
+        $user = User::factory()->create();
         $product = Product::factory()->create();
 
         $quantity = rand(1, 1000);
@@ -32,9 +33,6 @@ class SaleTest extends TestCase
         // Round the selling price to 2 decimal places
         $sellingPrice = round($sellingPrice, 2);
 
-        // Set up the user and authenticate
-        $user = User::factory()->create();
-
         $response = $this->actingAs($user)->get("/api/v1/selling-price?product-id=$product->id&quantity=$quantity&unit-cost=$unitCost");
 
         // Assert the selling price is correct
@@ -45,14 +43,60 @@ class SaleTest extends TestCase
     /**
      * Test creating a sale with valid data.
      */
-    // public function test_creating_a_sale_with_valid_data(): void
-    // {
-    // }
+    public function test_creating_a_sale_with_valid_data_returns_201(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($user)->post('/api/v1/sales', [
+            'productId' => $product->id,
+            'quantity' => 5,
+            'unitCost' => 1,
+            'sellingPrice' => 5,
+        ]);
+
+        $response->assertStatus(201);
+    }
 
     /**
      * Test creating a sale with invalid data.
      */
-    // public function test_creating_a_sale_with_invalid_data(): void
-    // {
-    // }
+    public function test_creating_a_sale_with_invalid_data_returns_error(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($user)->post('/api/v1/sales', [
+            'productId' => $product->id + 1,
+            'quantity' => 1,
+            'unitCost' => 1,
+            'sellingPrice' => 1,
+        ]);
+        $response->assertStatus(404);
+
+        $response = $this->actingAs($user)->post('/api/v1/sales', [
+            'productId' => $product->id,
+            'quantity' => 0,
+            'unitCost' => 1,
+            'sellingPrice' => 1,
+        ]);
+        $response->assertStatus(422);
+
+
+        $response = $this->actingAs($user)->post('/api/v1/sales', [
+            'productId' => $product->id,
+            'quantity' => 5,
+            'unitCost' => '',
+            'sellingPrice' => 5,
+        ]);
+        $response->assertStatus(422);
+
+        $response = $this->actingAs($user)->post('/api/v1/sales', [
+            'productId' => $product->id,
+            'quantity' => 5,
+            'unitCost' => 1,
+            'sellingPrice' => '',
+        ]);
+        $response->assertStatus(422);
+    }
 }
