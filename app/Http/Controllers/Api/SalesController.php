@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CalculateSellingPriceRequest;
 use App\Http\Requests\StoreSaleRequest;
-use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Sale;
+use Akaunting\Money\Money;
 
 class SalesController extends Controller
 {
@@ -56,6 +56,9 @@ class SalesController extends Controller
         //round the sellingPrice to two decimal places
         $sellingPrice = round($sellingPrice, 2);
 
-        return response()->json(['selling_price' => $sellingPrice]);
+        // Format the selling price as a currency
+        $sellingPriceFormatted = Money::GBP($sellingPrice, true)->format();
+
+        return response()->json(['sellingPrice' => $sellingPrice, 'sellingPriceFormatted' => $sellingPriceFormatted]);
     }
 }

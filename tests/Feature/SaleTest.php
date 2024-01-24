@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Akaunting\Money\Money;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -32,12 +33,13 @@ class SaleTest extends TestCase
 
         // Round the selling price to 2 decimal places
         $sellingPrice = round($sellingPrice, 2);
+        $sellingPriceFormatted = Money::GBP($sellingPrice, true)->format();
 
         $response = $this->actingAs($user)->getJson("/api/v1/selling-price?product-id=$product->id&quantity=$quantity&unit-cost=$unitCost");
 
         // Assert the selling price is correct
         $response->assertStatus(200)
-            ->assertExactJson(['selling_price' => $sellingPrice]);
+            ->assertExactJson(['sellingPrice' => $sellingPrice, 'sellingPriceFormatted' => $sellingPriceFormatted]);
     }
 
     /**

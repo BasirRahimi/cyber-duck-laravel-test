@@ -33,7 +33,7 @@
 
                             <div>
                                 <span class="text-gray-700">Selling Price</span>
-                                <p class="py-2 border border-transparent" x-html="sellingPrice"></p>
+                                <p class="py-2 border border-transparent" x-html="sellingPrice ? sellingPrice.sellingPriceFormatted : ''"></p>
                             </div>
 
                             <button type="submit" x-bind:disabled="!sellingPrice" class="self-center rounded-md bg-indigo-600 px-3 py-2 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -81,9 +81,9 @@
                                             </td>
                                             <td class="px-6 py-4" x-html="sale.unit_cost">
                                             </td>
-                                            <td class="px-6 py-4" x-html="sale.selling_price">
+                                            <td class="px-6 py-4" x-html="sale.selling_price_formatted">
                                             </td>
-                                            <td class="px-6 py-4" x-html="sale.created_at">
+                                            <td class="px-6 py-4" x-html="formatDateStandard(sale.created_at)">
                                             </td>
                                         </tr>
                                     </template>

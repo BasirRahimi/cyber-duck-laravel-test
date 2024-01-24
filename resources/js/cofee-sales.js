@@ -7,7 +7,7 @@ export const getSellingPrice = async (quantity, unitCost, productId) => {
         throw new Error("Something went wrong!");
     }
 
-    return response.data.selling_price;
+    return response.data;
 };
 
 export const recordSale = async (data) => {
@@ -17,7 +17,7 @@ export const recordSale = async (data) => {
         quantity,
         unitCost,
         productId,
-        sellingPrice,
+        sellingPrice: sellingPrice.sellingPrice,
     });
 
     if (response.status !== 201) {
