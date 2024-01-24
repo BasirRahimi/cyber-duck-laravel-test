@@ -23,5 +23,5 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('/sales', [SalesController::class, 'index']);
     Route::post('/sales', [SalesController::class, 'store']);
 
-    Route::get('/selling-price', [SalesController::class, 'sellingPrice']);
+    Route::get('/selling-price', [SalesController::class, 'calculateSellingPrice']);
 });

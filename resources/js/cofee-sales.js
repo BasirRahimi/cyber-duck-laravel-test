@@ -2,9 +2,11 @@ export const getSellingPrice = async (quantity, unitCost, productId) => {
     let response = await axios.get(
         `/api/v1/selling-price?quantity=${quantity}&unit-cost=${unitCost}&product-id=${productId}`
     );
+
     if (response.status !== 200) {
         throw new Error("Something went wrong!");
     }
+
     return response.data.selling_price;
 };
 
